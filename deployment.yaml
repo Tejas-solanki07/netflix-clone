@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netflix-app #tictactoe
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: netflix-app #tictactoe
+  template:
+    metadata:
+      labels:
+        app: netflix-app #tictactoe
+    spec:
+      containers:
+      - name: netflix-app #tictactoe
+        image: tejas0708/netflix-app
+        ports:
+        - containerPort: 5173 #80
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 5173 #80
+          initialDelaySeconds: 5
+          periodSeconds: 5        
